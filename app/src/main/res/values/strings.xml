@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">SportzStats</string>
+    <string name="str_all_squad">All Squad</string>
+    <string name="str_team_india">India</string>
+    <string name="str_team_nz">New Zealand</string>
+    <string name="str_average">AVERAGE</string>
+    <string name="str_runs">RUNS</string>
+    <string name="str_batting">BATTING</string>
+    <string name="str_bowling">BOWLING</string>
+    <string name="str_style">STYLE</string>
+    <string name="str_strike_rate">STRIKE-RATE</string>
+    <string name="str_eco_rate">ECONOMY RATE</string>
+    <string name="str_wickets">WICKETS</string>
+</resources>

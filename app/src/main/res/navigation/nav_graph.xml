@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.example.sportzstats.presentation.views.home.HomeFragment"
+        android:label="HomeFragment"
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/actionHomeToDetails"
+            app:destination="@id/detailsFragment">
+            <argument
+                android:name="post"
+                app:argType="com.example.sportzstats.domain.model.Post" />
+        </action>
+    </fragment>
+
+    <fragment
+        android:id="@+id/detailsFragment"
+        android:name="com.example.sportzstats.presentation.views.details.DetailsFragment"
+        android:label="DetailsFragment"
+        tools:layout="@layout/fragment_details">
+        <argument
+            android:name="post"
+            app:argType="com.example.sportzstats.domain.model.Post" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/playerDetailsBottomSheetFragment"
+        android:name="com.example.sportzstats.presentation.views.playerDetails.PlayerDetailsBottomSheetFragment"
+        android:label="PlayerDetailsBottomSheetFragment"
+        tools:layout="@layout/layout_player_details">
+        <argument
+            android:name="squad_data"
+            app:argType="com.example.sportzstats.presentation.views.model.SquadData" />
+    </fragment>
+
+</navigation>
