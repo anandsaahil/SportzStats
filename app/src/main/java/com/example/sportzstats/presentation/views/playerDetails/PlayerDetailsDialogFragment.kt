@@ -37,6 +37,5 @@ class PlayerDetailsBottomSheetFragment : DialogFragment() {
         binding.tvBowlAverageValue.text = squadData.player.bowling.average?.takeIf { it.isNotEmpty() } ?: "NA"
         binding.tvEcoRateValue.text = squadData.player.bowling.economyRate?.takeIf { it.isNotEmpty() } ?: "NA"
         binding.tvWicketsValue.text = squadData.player.bowling.wickets?.takeIf { it.isNotEmpty() } ?: "NA"
-
     }
 }

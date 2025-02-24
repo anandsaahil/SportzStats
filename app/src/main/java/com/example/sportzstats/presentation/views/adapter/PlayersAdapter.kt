@@ -9,6 +9,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.example.sportzstats.R
 import com.example.sportzstats.databinding.ItemPlayerBinding
+import com.example.sportzstats.presentation.utils.Team
 import com.example.sportzstats.presentation.views.model.SquadData
 import com.example.sportzstats.presentation.views.playerDetails.PlayerDetailsBottomSheetFragment
 
@@ -29,11 +30,11 @@ class PlayersAdapter(private val activity: FragmentActivity, private val squadDa
 
         holder.binding.tvBadge.visibility = when {
             squadData.player.isCaptain == true -> {
-                holder.binding.tvBadge.text = "Captain"
+                holder.binding.tvBadge.text = activity.resources.getString(R.string.str_captain)
                 View.VISIBLE
             }
             squadData.player.isKeeper == true -> {
-                holder.binding.tvBadge.text = "Keeper"
+                holder.binding.tvBadge.text = activity.resources.getString(R.string.str_keeper)
                 View.VISIBLE
             }
             else -> View.GONE
@@ -41,10 +42,16 @@ class PlayersAdapter(private val activity: FragmentActivity, private val squadDa
 
         val flagImage = if (squadData.teamName == Team.IND.name) {
             R.drawable.ic_flag_india
-        } else {
+        } else if (squadData.teamName == Team.PAK.name) {
+            R.drawable.ic_flag_pak
+        } else if (squadData.teamName == Team.NZ.name) {
             R.drawable.ic_flag_new_zealand
+        } else if (squadData.teamName == Team.SA.name) {
+            R.drawable.ic_flag_sa
+        } else {
+            null
         }
-        holder.binding.ivTeamFlag.setImageResource(flagImage)
+        flagImage?.let { holder.binding.ivTeamFlag.setImageResource(it) }
 
         holder.itemView.setOnClickListener {
             val dialogFragment = PlayerDetailsBottomSheetFragment()
@@ -59,9 +66,4 @@ class PlayersAdapter(private val activity: FragmentActivity, private val squadDa
     override fun getItemCount(): Int = squadData.size
 
     inner class PlayerViewHolder(val binding: ItemPlayerBinding) : RecyclerView.ViewHolder(binding.root)
-}
-
-enum class Team {
-    IND,
-    NZ
 }

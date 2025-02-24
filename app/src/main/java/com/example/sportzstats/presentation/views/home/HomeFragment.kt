@@ -1,7 +1,6 @@
 package com.example.sportzstats.presentation.views.home
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,6 +14,7 @@ import com.example.sportzstats.databinding.FragmentHomeBinding
 import com.example.sportzstats.domain.model.Post
 import com.example.sportzstats.presentation.utils.DateFormatter
 import com.example.sportzstats.presentation.utils.Helper
+import com.example.sportzstats.presentation.utils.Team
 import com.example.sportzstats.presentation.viewmodels.PostViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -45,7 +45,8 @@ class HomeFragment : Fragment() {
         postViewModel.error.observe(viewLifecycleOwner, Observer { errorMessage ->
             Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_SHORT).show()
         })
-        postViewModel.fetchPosts()
+
+        postViewModel.callNextApi()  // Calls the API (alternates based on the counter)
     }
 
     private fun initActions() {
@@ -55,13 +56,14 @@ class HomeFragment : Fragment() {
     }
 
     private fun initViews() {
+        mapFlag()
         binding.layoutLoader.visibility = View.GONE
         binding.animLive.visibility =
             if (postViewModel.posts.value?.matchDetail?.match?.liveCoverage.equals(Helper.Yes.name,true))
                 View.VISIBLE else View.GONE
         binding.tvMatchType.text = postViewModel.posts.value?.matchDetail?.series?.name
-        binding.tvTeamOne.text = postViewModel.posts.value?.teams?.india?.nameShort
-        binding.tvTeamTwo.text = postViewModel.posts.value?.teams?.newZealand?.nameShort
+        binding.tvTeamOne.text = postViewModel.posts.value?.teams?.teamOne?.nameShort
+        binding.tvTeamTwo.text = postViewModel.posts.value?.teams?.teamTwo?.nameShort
         val formattedDateTime = DateFormatter.formatDateTime(
             postViewModel.posts.value?.matchDetail?.match?.date,
             postViewModel.posts.value?.matchDetail?.match?.time
@@ -69,6 +71,24 @@ class HomeFragment : Fragment() {
         binding.tvMatchTime.text = formattedDateTime
         binding.tvMatchVenue.text = postViewModel.posts.value?.matchDetail?.venue?.name
         binding.animStartBtn.isClickable = true
+    }
+
+    private fun mapFlag(){
+        val teamOneFlags = mapOf(
+            Team.IND.name to R.drawable.ic_flag_india,
+            Team.PAK.name to R.drawable.ic_flag_pak
+        )
+
+        val teamTwoFlags = mapOf(
+            Team.NZ.name to R.drawable.ic_flag_new_zealand,
+            Team.SA.name to R.drawable.ic_flag_sa
+        )
+
+        val teamOne = postViewModel.posts.value?.teams?.teamOne?.nameShort
+        val teamTwo = postViewModel.posts.value?.teams?.teamTwo?.nameShort
+
+        binding.ivFlagOne.setImageResource(teamOneFlags[teamOne] ?: R.mipmap.ic_launcher)
+        binding.ivFlagTwo.setImageResource(teamTwoFlags[teamTwo] ?: R.mipmap.ic_launcher)
     }
 
     private fun navigateToDetails(post: Post?) {

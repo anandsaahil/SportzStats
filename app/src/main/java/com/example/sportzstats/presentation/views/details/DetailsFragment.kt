@@ -5,22 +5,19 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.sportzstats.R
 import com.example.sportzstats.databinding.FragmentDetailsBinding
 import com.example.sportzstats.presentation.views.adapter.PlayersAdapter
-import com.example.sportzstats.presentation.viewmodels.PostViewModel
 import com.example.sportzstats.presentation.views.model.SquadData
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class DetailsFragment : Fragment() {
-    private val postViewModel: PostViewModel by viewModels()
     private lateinit var playersAdapter: PlayersAdapter
     private lateinit var allPlayers: List<SquadData>
-    private lateinit var teamIndiaPlayers: List<SquadData>
-    private lateinit var teamNewZealandPlayers: List<SquadData>
+    private lateinit var teamA: List<SquadData>
+    private lateinit var teamB: List<SquadData>
     lateinit var binding: FragmentDetailsBinding
 
     override fun onCreateView(
@@ -40,17 +37,21 @@ class DetailsFragment : Fragment() {
         val post = arguments?.let {
             DetailsFragmentArgs.fromBundle(it).post
         }
-        val indiaPlayers = post?.teams?.india?.players?.values?.map {
-            SquadData(it, post.teams.india.nameShort)
+
+        binding.chipTeamOne.text = post?.teams?.teamOne?.nameFull
+        binding.chipTeamTwo.text = post?.teams?.teamTwo?.nameFull
+
+        val teamOnePlayers = post?.teams?.teamOne?.players?.values?.map {
+            SquadData(it, post.teams.teamOne.nameShort)
         } ?: emptyList()
 
-        val newZealandPlayers = post?.teams?.newZealand?.players?.values?.map {
-            SquadData(it, post.teams.newZealand.nameShort)
+        val teamTwoPlayers = post?.teams?.teamTwo?.players?.values?.map {
+            SquadData(it, post.teams.teamTwo.nameShort)
         } ?: emptyList()
 
-        allPlayers = indiaPlayers + newZealandPlayers
-        teamIndiaPlayers = indiaPlayers
-        teamNewZealandPlayers = newZealandPlayers
+        allPlayers = teamOnePlayers + teamTwoPlayers
+        teamA = teamOnePlayers
+        teamB = teamTwoPlayers
 
         playersAdapter = PlayersAdapter(requireActivity(), allPlayers)
         binding.recyclerViewPlayers.adapter = playersAdapter
@@ -64,11 +65,11 @@ class DetailsFragment : Fragment() {
                 }
 
                 R.id.chip_team_one -> {
-                    playersAdapter = PlayersAdapter(requireActivity(), teamIndiaPlayers)
+                    playersAdapter = PlayersAdapter(requireActivity(), teamA)
                 }
 
                 R.id.chip_team_two -> {
-                    playersAdapter = PlayersAdapter(requireActivity(), teamNewZealandPlayers)
+                    playersAdapter = PlayersAdapter(requireActivity(), teamB)
                 }
             }
             binding.recyclerViewPlayers.adapter = playersAdapter

@@ -11,4 +11,6 @@
     <string name="str_strike_rate">STRIKE-RATE</string>
     <string name="str_eco_rate">ECONOMY RATE</string>
     <string name="str_wickets">WICKETS</string>
+    <string name="str_captain">Captain</string>
+    <string name="str_keeper">Keeper</string>
 </resources>

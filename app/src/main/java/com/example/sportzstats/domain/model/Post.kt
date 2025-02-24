@@ -124,10 +124,10 @@ data class Series(
 @Parcelize
 data class Notes(
     @SerializedName("1")
-    val indiaNotes: List<String>,
+    val notesOne: List<String>,
 
     @SerializedName("2")
-    val newZealandNotes: List<String>
+    val notesTwo: List<String>
 ) : Parcelable
 
 @Parcelize
@@ -151,10 +151,10 @@ data class Officials(
 @Parcelize
 data class Teams(
     @SerializedName("4")
-    val india: Team,
+    val teamOne: Team?,
 
     @SerializedName("5")
-    val newZealand: Team
+    val teamTwo: Team?
 ) : Parcelable
 
 @Parcelize
